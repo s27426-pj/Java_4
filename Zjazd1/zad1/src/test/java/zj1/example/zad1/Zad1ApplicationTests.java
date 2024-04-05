@@ -1,13 +1,13 @@
-package com.example.zaj0;
+package zj1.example.zad1;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class Zaj0ApplicationTests {
+class Zad1ApplicationTests {
 
-    @Test
-    void contextLoads() {
-    }
+	@Test
+	void contextLoads() {
+	}
 
 }
