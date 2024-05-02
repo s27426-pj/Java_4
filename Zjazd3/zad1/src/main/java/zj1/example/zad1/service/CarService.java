@@ -1,6 +1,11 @@
-package zj1.example.zad1;
+package zj1.example.zad1.service;
 
 import org.springframework.stereotype.Service;
+import zj1.example.zad1.repository.CarRepository;
+import zj1.example.zad1.mapper.CarMapper;
+import zj1.example.zad1.model.Car;
+import zj1.example.zad1.model.CarCreateRequest;
+import zj1.example.zad1.model.CarResponse;
 
 
 import java.util.List;
@@ -20,7 +25,7 @@ public class CarService {
         return carRepository.findAll().stream().map(mapper::toResponse).collect(Collectors.toList());
     }
 
-    public List<CarCreateRequest> getAllCarsBasic(){
+    public List<CarResponse> getAllCarsBasic(){
         return carRepository.findAll().stream().map(mapper::toResponseBasic).collect(Collectors.toList());
     }
     public Car addCar(CarCreateRequest carCreateRequest) {

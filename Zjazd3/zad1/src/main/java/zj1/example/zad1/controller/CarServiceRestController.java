@@ -1,6 +1,10 @@
-package zj1.example.zad1;
+package zj1.example.zad1.controller;
 
 import org.springframework.web.bind.annotation.*;
+import zj1.example.zad1.model.Car;
+import zj1.example.zad1.model.CarCreateRequest;
+import zj1.example.zad1.model.CarResponse;
+import zj1.example.zad1.service.CarService;
 
 import java.util.List;
 import java.util.UUID;
@@ -15,8 +19,8 @@ public class CarServiceRestController {
     }
 
     @GetMapping("/basic")
-    public List<CarCreateRequest> getAllCarsBasicInfo() {
-        List<CarCreateRequest> cars = carService.getAllCarsBasic();
+    public List<CarResponse> getAllCarsBasicInfo() {
+        List<CarResponse> cars = carService.getAllCarsBasic();
         return cars;
     }
 

@@ -1,6 +1,9 @@
-package zj1.example.zad1;
+package zj1.example.zad1.mapper;
 
 import org.mapstruct.*;
+import zj1.example.zad1.model.Car;
+import zj1.example.zad1.model.CarCreateRequest;
+import zj1.example.zad1.model.CarResponse;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.ERROR, componentModel = "spring", builder = @Builder(disableBuilder = true))
 public interface CarMapper {
@@ -15,6 +18,7 @@ public interface CarMapper {
     @Mapping(target = "lastViews", ignore = true)
     CarResponse toResponse(Car car);
 
-
-    CarCreateRequest toResponseBasic(Car car);
+    @Mapping(target = "lastViews", ignore = true)
+    @Mapping(target = "history", ignore = true)
+    CarResponse toResponseBasic(Car car);
 }

@@ -1,4 +1,4 @@
-package zj1.example.zad1;
+package zj1.example.zad1.model;
 
 import lombok.Getter;
 import lombok.Setter;
