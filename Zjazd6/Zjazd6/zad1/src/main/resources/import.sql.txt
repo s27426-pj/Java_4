@@ -1,0 +1,11 @@
+CREATE TABLE IF NOT EXISTS CAR (
+    id UUID PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    yearOfProduction INT NOT NULL,
+    history TEXT
+);
+
+INSERT INTO CAR (id, name, yearOfProduction, history)
+VALUES
+    (uuid_generate_v4(), 'Ford Mustang', 1967, 'Classic muscle car'),
+    (uuid_generate_v4(), 'Tesla Model S', 2020, 'Electric vehicle');

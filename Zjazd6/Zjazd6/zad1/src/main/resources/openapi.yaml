@@ -1,0 +1,136 @@
+openapi: 3.0.0
+info:
+  title: Simple Car Service
+  version: 3.1.0
+tags:
+  - name: car
+    description: Everything about your car
+paths:
+  /car:
+    post:
+      tags:
+        - car
+      summary: Add a new car to the store
+      operationId: addCar
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CarCreateRequest'
+      responses:
+        '204':
+          description: Successful operation
+  /car/{name}:
+    parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+    put:
+      tags:
+        - car
+      summary: Update an existing car
+      operationId: updateCar
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CarUpdateRequest'
+      responses:
+        '200':
+          description: Successful operation
+        '404':
+          description: Car not found
+    delete:
+      tags:
+        - car
+      summary: Deletes a car
+      operationId: deleteCar
+      responses:
+        '204':
+          description: No Content
+  /carsBasic:
+    get:
+      tags:
+        - car
+      summary: Find all cars basic information
+      operationId: getAllCarsBasicInfo
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CarsBasic'
+        '404':
+          description: Cars not found
+  /carsFull:
+    get:
+      tags:
+        - car
+      summary: Find all cars full information
+      operationId: getAllCarsFullInfo
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CarsFull'
+        '404':
+          description: Cars not found
+components:
+  schemas:
+    CarCreateRequest:
+      type: object
+      required: [name, yearOfProduction]
+      properties:
+        name:
+          type: string
+          xml:
+            name: nazwa
+        yearOfProduction:
+          type: integer
+          xml:
+            name: data_produkcji
+    CarUpdateRequest:
+      type: object
+      required: [name, yearOfProduction]
+      properties:
+        name:
+          type: string
+          xml:
+            name: nazwa
+        yearOfProduction:
+          type: integer
+          xml:
+            name: data_produkcji
+    CarsBasic:
+      description: Basic car object.
+      type: object
+      required: [name, yearOfProduction]
+      properties:
+        name:
+          type: string
+        yearOfProduction:
+          type: integer
+    CarsFull:
+      description: Full car object.
+      type: object
+      required: [name, yearOfProduction, history, lastViews]
+      properties:
+        name:
+          type: string
+        yearOfProduction:
+          type: integer
+        history:
+          type: string
+        lastViews:
+          type: integer
