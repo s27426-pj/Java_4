@@ -1,3 +1,5 @@
 insert into car values(volkswagen polo, 1998);
 insert into car values(Volkswagen Sharan, 2004);
 insert into car values(volkswagen polo, 2014);
+insert into carcass values(1,Economic);
+insert into carcass values(2,Premium);
