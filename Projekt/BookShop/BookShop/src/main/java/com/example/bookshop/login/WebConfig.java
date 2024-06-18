@@ -1,0 +1,32 @@
+package com.example.bookshop.login;
+
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.SecurityFilterChain;
+
+@Getter
+@Setter
+@Configuration
+@EnableWebSecurity
+@ConfigurationProperties("web.config")
+public class WebConfig {
+
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        return http
+                .authorizeHttpRequests(request -> {
+                    request.requestMatchers("/login").permitAll();
+                    request.anyRequest().authenticated();
+                })
+                .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
+                .oauth2Login(l -> l.defaultSuccessUrl("http://localhost:8093/bookshop/all", true))
+                .build();
+    }
+}
+
