@@ -18,7 +18,7 @@ public interface BookMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "views", ignore = true)
     @Mapping(target = "author", ignore = true)
-    Book updateEntity(BookCreateRequest book);
+    void updateEntity(BookCreateRequest book,@MappingTarget Book old);
 
     @Mapping(target = "author", source = "author")
     BookResponse toResponse(Book book);

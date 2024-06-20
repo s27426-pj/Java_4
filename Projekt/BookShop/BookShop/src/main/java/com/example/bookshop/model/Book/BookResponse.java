@@ -1,10 +1,12 @@
 package com.example.bookshop.model.Book;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 
 @Getter@Setter
+@AllArgsConstructor
 public class BookResponse {
 
         private String name;
@@ -13,7 +15,7 @@ public class BookResponse {
         private int pages;
         private int views;
         private int available;
-        private String author;
+        private Author author;
 
 
 }

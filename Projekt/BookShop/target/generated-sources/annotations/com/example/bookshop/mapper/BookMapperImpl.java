@@ -1,5 +1,6 @@
 package com.example.bookshop.mapper;
 
+import com.example.bookshop.model.Book.Author;
 import com.example.bookshop.model.Book.Book;
 import com.example.bookshop.model.Book.BookCreateRequest;
 import com.example.bookshop.model.Book.BookResponse;
@@ -10,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-06-18T14:05:44+0200",
+    date = "2024-06-20T12:03:22+0200",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 21.0.2 (Oracle Corporation)"
 )
 @Component
@@ -34,20 +35,16 @@ public class BookMapperImpl implements BookMapper {
     }
 
     @Override
-    public Book updateEntity(BookCreateRequest book) {
+    public void updateEntity(BookCreateRequest book, Book old) {
         if ( book == null ) {
-            return null;
+            return;
         }
 
-        Book book1 = new Book();
-
-        book1.setName( book.getName() );
-        book1.setGenre( book.getGenre() );
-        book1.setPrice( book.getPrice() );
-        book1.setPages( book.getPages() );
-        book1.setAvailable( book.getAvailable() );
-
-        return book1;
+        old.setName( book.getName() );
+        old.setGenre( book.getGenre() );
+        old.setPrice( book.getPrice() );
+        old.setPages( book.getPages() );
+        old.setAvailable( book.getAvailable() );
     }
 
     @Override
@@ -56,15 +53,23 @@ public class BookMapperImpl implements BookMapper {
             return null;
         }
 
-        BookResponse bookResponse = new BookResponse();
+        Author author = null;
+        String name = null;
+        String genre = null;
+        double price = 0.0d;
+        int pages = 0;
+        int views = 0;
+        int available = 0;
 
-        bookResponse.setAuthor( map( book.getAuthor() ) );
-        bookResponse.setName( book.getName() );
-        bookResponse.setGenre( book.getGenre() );
-        bookResponse.setPrice( book.getPrice() );
-        bookResponse.setPages( book.getPages() );
-        bookResponse.setViews( book.getViews() );
-        bookResponse.setAvailable( book.getAvailable() );
+        author = book.getAuthor();
+        name = book.getName();
+        genre = book.getGenre();
+        price = book.getPrice();
+        pages = book.getPages();
+        views = book.getViews();
+        available = book.getAvailable();
+
+        BookResponse bookResponse = new BookResponse( name, genre, price, pages, views, available, author );
 
         return bookResponse;
     }

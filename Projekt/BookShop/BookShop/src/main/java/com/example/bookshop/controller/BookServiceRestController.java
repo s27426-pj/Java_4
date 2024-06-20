@@ -9,11 +9,12 @@ import com.example.bookshop.model.Book.BookResponse;
 import com.example.bookshop.model.Order.BookOrder;
 import com.example.bookshop.model.Order.BookOrderCreateRequest;
 import com.example.bookshop.service.BookService;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-
+import pl.simplyinvoice.api.*;
 import java.util.List;
 import java.util.UUID;
+
 
 @RestController
 @RequestMapping("/bookshop")
@@ -24,7 +25,7 @@ public class BookServiceRestController {
         this.bookService = bookService;
     }
 
-    @GetMapping("/all")
+    @GetMapping
     public List<BookResponse> getAllBooks() {
         return bookService.getAllBooks();
     }
@@ -36,13 +37,13 @@ public class BookServiceRestController {
     }
 
     @UserPermission
-    @GetMapping("/search")
-    public List<BookResponse> getFilteredBooks(String surname){
+    @GetMapping("/{surname}")
+    public List<BookResponse> getFilteredBooks(@PathVariable String surname){
         return bookService.filteredBooks(surname);
     }
 
     @AdminPermission
-    @PostMapping
+    @PostMapping("/add")
     public Book addBook(@RequestBody BookCreateRequest bookCreateRequest) {
         return bookService.addBook(bookCreateRequest);
     }
@@ -54,20 +55,20 @@ public class BookServiceRestController {
     }
 
     @AdminPermission
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/del/{id}")
     public void deleteBook(@PathVariable UUID id) {
         bookService.deleteBook(id);
     }
 
-
-    @AdminPermission
+    @UserPermission
     @PostMapping("/order")
     public BookOrder addOrder(@RequestBody BookOrderCreateRequest bookOrder) {
         return bookService.orderBook(bookOrder);
     }
 
-    @GetMapping("/books_to_order")
+    @GetMapping(value = "/books_to_order", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<BooksToOrder> getBooksToOrder() {
         return bookService.getBooksToOrder();
     }
+
 }

@@ -1,17 +1,16 @@
 package org.example.bookorder.communication;
 
-import org.example.bookorder.model.BookToOrderDetails;
+import feign.Response;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
-import java.util.UUID;
 
-@FeignClient(name = "BookShop", url = "http://localhost:8093")
+@FeignClient(name = "BookShop", url = "http://localhost:8093", configuration = FeignConfig.class)
 public interface BookShopClient {
 
-    @GetMapping("/bookshop/books_to_order")
-    List<BookToOrderDetails> getBooksToOrder();
+    @GetMapping(value = "/bookshop/books_to_order", produces = MediaType.APPLICATION_JSON_VALUE)
+    List<Response> getBooksToOrder();
 
 }

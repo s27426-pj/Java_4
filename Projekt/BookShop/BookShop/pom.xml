@@ -18,9 +18,9 @@
 	</properties>
 	<dependencies>
 		<dependency>
-			<groupId>org.example</groupId>
-			<artifactId>Book-order</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<groupId>pl.simplyinvoice</groupId>
+			<artifactId>api</artifactId>
+			<version>000111</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

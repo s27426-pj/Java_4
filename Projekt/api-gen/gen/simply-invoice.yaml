@@ -1,0 +1,316 @@
+openapi: 3.0.3
+info:
+  title: BookShop
+  version: 1.12.4
+tags:
+  - name: Book-order
+    description: Operation about ordering new books
+  - name: BookShop
+    description: Operations about book shop
+paths:
+  /bookShop:
+    get:
+      tags:
+        - BookShop
+      summary: Shows all books
+      description: This can be done even by not logged in user.
+      operationId: getAllBooks
+      responses:
+        '200':
+          description: Successful operation
+  /bookShop/{Id}:
+    get:
+      tags:
+        - BookShop
+      summary: Find Book by ID
+      description: Find Book by ID
+      operationId: getBook
+      parameters:
+        - name: Id
+          in: path
+          description: ID of book that needs to be fetched
+          required: true
+          schema:
+            type: string
+            format: UUID
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+        '404':
+          description: "Book with that Id don`t exist"
+  /bookShop/{surname}:
+    get:
+      tags:
+        - BookShop
+      summary: Find List of books by Author surname
+      description: Find List of books by Author surname
+      operationId: getFilteredBooks
+      parameters:
+        - name: surname
+          in: path
+          description: part or entire surname of author of book that needs to be fetched
+          required: true
+          schema:
+            type: string
+            format: string
+      responses:
+        '200':
+          description: successful operation
+  /bookShop/add:
+    post:
+      tags:
+        - BookShop
+      summary: Add a book
+      description: Add a book
+      operationId: addBook
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookCreateRequest'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+        '422':
+          description: Validation exception
+      security:
+        - bookshop_auth:
+            - write:admin
+            - read:admin
+  /BookShop/{Id}:
+    put:
+      tags:
+        - BookShop
+      summary: Update an existing Book
+      description: Update an existing Book by Id
+      operationId: updateBook
+      parameters:
+        - name: Id
+          in: path
+          description: Id of book to upgrade
+          required: true
+          schema:
+            type: string
+            format: UUID
+      requestBody:
+        description: Update an existent book in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookCreateRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+        '404':
+          description: Book with id don`t exist
+        '422':
+          description: Validation exception
+      security:
+        - bookshop_auth:
+            - write:admin
+            - read:admin
+  /BookShop/del/{Id}:
+    delete:
+      tags:
+        - BookShop
+      summary: Delete Book order by ID
+      description: Delete Book order by ID
+      operationId: deleteBook
+      parameters:
+        - name: Id
+          in: path
+          description: ID of the book that needs to be deleted
+          required: true
+          schema:
+            type: string
+            format: UUID
+      responses:
+        '404':
+          description: Book not found
+        '422':
+          description: Validation exception
+      security:
+        - bookshop_auth:
+            - write:admin
+            - read:admin
+  /BookShop/order:
+    post:
+      tags:
+        - BookShop
+      summary: Add a order
+      description: Add a order
+      operationId: addOrder
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookOrderCreateRequest'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookOrder'
+        '422':
+          description: Validation exception
+      security:
+        - bookshop_auth:
+            - write:admin
+            - read:admin
+  /pdf:
+    get:
+      tags:
+        - Book-order
+      summary: Generate pdf with books to order
+      description: Generate pdf with books to order
+      operationId: getBooksPdf
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+components:
+  schemas:
+    Author:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        name:
+          type: string
+          example: Arnold
+        surname:
+          type: string
+          example: Dumbbell
+    Book:
+      type: object
+      properties:
+        id:
+          type: string
+          format: UUID
+          example: 12cc3f59-93d3-4785-8a91-6d5663f543c2
+        name:
+          type: string
+          format: string
+          example: Harry Squatter The Boy Who Lifted
+        genre:
+          type: string
+          format: string
+          example: Fantasy
+        price:
+          type: number
+          format: double
+          example: 29.99
+        pages:
+          type: integer
+          description: int64
+          example: 350
+        available:
+          type: integer
+          description: int64
+          example: 220
+        views:
+          type: integer
+          description: int64
+          example: 1200
+        Author:
+          $ref: '#/components/schemas/Author'
+      xml:
+        name: book
+    BookCreateRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          format: string
+          example:  Harry Squatter and Order of Protein
+        genre:
+          type: string
+          format: string
+          example: Fantasy
+        price:
+          type: number
+          format: double
+          example: 29.99
+        pages:
+          type: integer
+          format: int64
+          example: 470
+        available:
+          type: integer
+          format: int64
+          example: 174
+      xml:
+        name: bookCreateRequest
+    BookOrderCreateRequest:
+      type: object
+      properties:
+        Id:
+          type: string
+          format: UUID
+          example: bb356382-9019-4efe-af48-a28ba28a9843
+        ordering_user:
+          $ref:  '#/components/schemas/User'
+        Book:
+          $ref:  '#/components/schemas/Book'
+        quantity:
+          type: integer
+          format: int64
+          example: 4
+      xml:
+        name: address
+    BookOrder:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        name:
+          type: string
+          example: Dogs
+      xml:
+        name: category
+    User:
+      type: object
+      properties:
+        id:
+          type: number
+          format: Long
+          example: 427
+        email:
+          type: string
+          example: example@gmail.com
+        role:
+          type: string
+          example: User
+      xml:
+        name: user
+  securitySchemes:
+    bookshop_auth:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: https://localhost:8093/login/oauth/authorize
+          scopes:
+            write:admin: modify pets in your account
+            read:admin: read your pets

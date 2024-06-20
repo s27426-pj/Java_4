@@ -25,7 +25,7 @@ public class WebConfig {
                     request.anyRequest().authenticated();
                 })
                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
-                .oauth2Login(l -> l.defaultSuccessUrl("http://localhost:8093/bookshop/all", true))
+                .oauth2Login(l -> l.defaultSuccessUrl("http://localhost:8093/bookshop/all", false))
                 .build();
     }
 }

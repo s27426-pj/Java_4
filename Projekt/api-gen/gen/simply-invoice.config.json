@@ -1,0 +1,13 @@
+{
+  "apiPackage": "pl.simplyinvoice.api",
+  "modelPackage": "pl.simplyinvoice.model",
+  "hideGenerationTimestamp": true,
+  "withXml": true,
+  "useBeanValidation": true,
+  "dateLibrary": "java8-localdatetime",
+  "interfaceOnly": true,
+  "defaultInterfaces": false,
+  "skipDefaultInterface": true,
+  "java8": true,
+  "additionalModelTypeAnnotations": "@lombok.Getter\n@lombok.Setter\n@lombok.ToString\n@lombok.RequiredArgsConstructor\n@lombok.AllArgsConstructor"
+}

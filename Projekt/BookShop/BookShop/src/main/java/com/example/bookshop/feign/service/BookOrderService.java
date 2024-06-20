@@ -1,17 +1,18 @@
 package com.example.bookshop.feign.service;
 
+
 import com.example.bookshop.feign.client.BookOrderClient;
-import org.springframework.http.ResponseEntity;
+import feign.Response;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class BookOrderService {
+
     private final BookOrderClient communicationClient;
 
-    public BookOrderService(BookOrderClient communicationClient) {
-        this.communicationClient = communicationClient;
-    }
-    public ResponseEntity<byte[]> printPdf() {
+    public Response printPdf() {
             return communicationClient.getBooksPdf();
     }
 }
