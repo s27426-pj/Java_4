@@ -42,6 +42,10 @@ paths:
                 $ref: '#/components/schemas/Book'
         '404':
           description: "Book with that Id don`t exist"
+      security:
+        - bookshop_auth:
+            - write:user
+            - read:user
   /bookShop/{surname}:
     get:
       tags:
@@ -60,6 +64,10 @@ paths:
       responses:
         '200':
           description: successful operation
+      security:
+        - bookshop_auth:
+            - write:user
+            - read:user
   /bookShop/add:
     post:
       tags:
@@ -169,8 +177,22 @@ paths:
           description: Validation exception
       security:
         - bookshop_auth:
-            - write:admin
-            - read:admin
+            - write:user
+            - read:user
+  /BookShop/books_to_order:
+    get:
+      tags:
+        - BookShop
+      summary: Sends List of books to order to buy
+      description: Sends List of books to order to buy
+      operationId: getBooksToOrder
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListBooksToOrder'
   /pdf:
     get:
       tags:
@@ -305,6 +327,27 @@ components:
           example: User
       xml:
         name: user
+    ListBooksToOrder:
+      type: array
+      items:
+        $ref:  '#/components/schemas/BooksToOrder'
+      xml:
+        name: listBooksToOrder
+    BooksToOrder:
+      type: object
+      properties:
+        id:
+          type: string
+          format: UUID
+          example: efcbe2f3-cdb3-4730-98bc-b886d545be5e
+        name:
+          type: string
+          example: Harry Squatter and the Chamber of Gains
+        views:
+          type: integer
+          example: 243
+      xml:
+        name: booksToOrder
   securitySchemes:
     bookshop_auth:
       type: oauth2
