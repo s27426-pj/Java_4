@@ -10,18 +10,15 @@ import com.example.bookshop.model.Order.BookOrder;
 import com.example.bookshop.model.Order.BookOrderCreateRequest;
 import com.example.bookshop.service.BookService;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.simplyinvoice.api.*;
 
-import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 
 
 @RestController
 @RequestMapping("/bookshop")
-public class BookServiceRestController {
+public class BookServiceRestController{
     private final BookService bookService;
 
     public BookServiceRestController(BookService bookService) {
@@ -40,7 +37,7 @@ public class BookServiceRestController {
     }
 
     @UserPermission
-    @GetMapping("/{surname}")
+    @GetMapping("/author/{surname}")
     public List<BookResponse> getFilteredBooks(@PathVariable String surname){
         return bookService.filteredBooks(surname);
     }
